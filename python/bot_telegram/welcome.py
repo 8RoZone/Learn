@@ -4,6 +4,7 @@ from telegram.ext import ConversationHandler, CallbackQueryHandler
 from telegram import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font
+import datetime
 
 wb = load_workbook('../data/data_telegram.xlsx')
 ws = wb.active
@@ -51,7 +52,8 @@ def share_info(update: Update, context: CallbackContext):
 
 def handle_info(update: Update, context: CallbackContext):
     phone_number = update.message.contact.phone_number
-    ws.cell(row=last_row, column=4, value=phone_number)
+    ws.cell(row=last_row, column=4, value=datetime.datetime.now())
+    ws.cell(row=last_row, column=5, value=phone_number)
     wb.save("../data/data_telegram.xlsx")
     update.message.reply_text(f"Số điện thoại của bạn là: {phone_number}")
     return STATE_3
